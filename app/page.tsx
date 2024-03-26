@@ -1,6 +1,11 @@
+import { UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
-      <h1 className="text-red-500">Livestream Video App</h1>
+    <div className="flex flex-col gap-y-6">
+      <p>Dashboard</p>
+
+      <UserButton afterSignOutUrl="/" />
+    </div>
   );
 }
