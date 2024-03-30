@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  is             String  @id @default(uuid()) @map("_id")
+  id             String  @id @default(uuid()) @map("_id")
   username       String  @unique
   imageUrl       String
   externalUserId String  @unique
