@@ -20,7 +20,7 @@ model User {
   blocking  Block[] @relation("Blocking")
   blockedBy Block[] @relation("BlockedBy")
 
-  stream Stream?
+  stream Stream? @relation("Stream")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -65,7 +65,7 @@ model Stream {
   name         String
   thumbnailUrl String?
 
-  ingressId String? @unique
+  ingressId String? 
   serverUrl String?
   streamKey String?
 
@@ -75,9 +75,10 @@ model Stream {
   isChatFollowersOnly Boolean @default(false)
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(name: "Stream", fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([ingressId])
 }
