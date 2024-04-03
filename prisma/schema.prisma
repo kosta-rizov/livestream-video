@@ -17,8 +17,10 @@ model User {
   following  Follow[] @relation("Following")
   followedBy Follow[] @relation("FollowedBy")
 
-  blocking   Block[]  @relation("Blocking")
-  blockedBy  Block[]  @relation("BlockedBy")
+  blocking  Block[] @relation("Blocking")
+  blockedBy Block[] @relation("BlockedBy")
+
+  stream Stream?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,13 +44,13 @@ model Follow {
 }
 
 model Block {
-  id        String @id @default(uuid()) @map("_id")
+  id String @id @default(uuid()) @map("_id")
 
   blockerId String
-  blocker   User @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocker   User   @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
 
   blockedId String
-  blocked   User @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
+  blocked   User   @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,4 +58,26 @@ model Block {
   @@unique([blockerId, blockedId])
   @@index([blockerId])
   @@index([blockedId])
+}
+
+model Stream {
+  id           String @id @default(uuid()) @map("_id")
+  name         String
+  thumbnailUrl String?
+
+  ingressId String? @unique
+  serverUrl String?
+  streamKey String?
+
+  isLive              Boolean @default(false)
+  isChatEnabled       Boolean @default(true)
+  isChatDelayed       Boolean @default(false)
+  isChatFollowersOnly Boolean @default(false)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }
