@@ -10,7 +10,7 @@ interface CreatorPageProps {
 }
 
 const CreatorPage = async ({ params }: CreatorPageProps) => {
-  
+
   const externalUser = await currentUser();
   const user = await getUserByUserName(params.username);
 
