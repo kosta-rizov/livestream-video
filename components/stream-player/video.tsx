@@ -10,6 +10,7 @@ import {
 import OfflineVideo from "./offline-video";
 import LoadingVideo from "./loading-video";
 import LiveVideo from "./live-video";
+import { Skeleton } from "../ui/skeleton";
 
 interface VideoProps {
   hostName: string;
@@ -17,10 +18,9 @@ interface VideoProps {
 }
 
 const Video = ({ hostName, hostIdentity }: VideoProps) => {
-
   const connectionState = useConnectionState();
   const participant = useRemoteParticipant(hostIdentity);
-  
+
   const tracks = useTracks([
     Track.Source.Camera,
     Track.Source.Microphone,
@@ -44,3 +44,11 @@ const Video = ({ hostName, hostIdentity }: VideoProps) => {
 };
 
 export default Video;
+
+export const VideoSkeleton = () => {
+  return (
+    <div className="aspect-video bprder-x border-background">
+      <Skeleton className="h-full w-full rounded-none" />
+    </div>
+  );
+};

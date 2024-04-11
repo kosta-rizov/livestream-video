@@ -8,9 +8,10 @@ import {
 import { ConnectionState } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { ChatHeader } from "./chat-header";
-import ChatForm from "./chat-form";
-import ChatList from "./chat-list";
+import { ChatHeader, ChatHeaderSkeleton } from "./chat-header";
+import ChatForm, { ChatFormSkeleton } from "./chat-form";
+import ChatList, { ChatListSkeleton } from "./chat-list";
+import ChatCommunity from "./chat-community";
 
 interface ChatProps {
   hostIdentity: string;
@@ -31,7 +32,6 @@ const Chat = ({
   isChatEnabled,
   isFollowing,
 }: ChatProps) => {
-  
   const [value, setValue] = useState("");
 
   const matches = useMediaQuery("(max:width: 1024px)");
@@ -80,12 +80,24 @@ const Chat = ({
         </>
       )}
       {variant === ChatVariant.COMMUNITY && (
-        <>
-          <p>Community</p>
-        </>
+        <ChatCommunity
+          viewerName={viewerName}
+          hostName={hostName}
+          isHidden={isHidden}
+        />
       )}
     </div>
   );
 };
 
 export default Chat;
+
+export const ChatSkeleton = () => {
+  return (
+    <div className="flex clex-col border-l border-b pt-0 h-[calc(100vh-80px)] border-2">
+      <ChatHeaderSkeleton />
+      <ChatListSkeleton />
+      <ChatFormSkeleton />
+    </div>
+  );
+};
