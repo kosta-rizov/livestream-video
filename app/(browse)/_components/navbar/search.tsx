@@ -4,10 +4,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import qs from "query-string"
 import { SearchIcon, X } from "lucide-react"
-
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
 
 const Search = () => {
 
@@ -27,7 +25,6 @@ const Search = () => {
        
        router.push(url)
 
-       console.log("🚀 ~ onSubmithHandler ~ url:", url)
     }
 
     const onClear = () => {
