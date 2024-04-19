@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { getSelf } from "./auth-service";
+import { afterEach } from "node:test";
 
 //Check if we are blocked by user
 export const isBlockedByUser = async (id: string) => {
@@ -97,4 +98,20 @@ export const unblockUser = async (id: string) => {
     })
 
     return unblock
+}
+
+export const getBlockUsers = async () => {
+
+  const self = await getSelf();
+
+  const blockedUsers = await db.block.findMany({
+    where:{
+      blockerId: self.id
+    },
+    include: {
+      blocked: true
+    }
+  })
+
+  return blockedUsers
 }

@@ -18,13 +18,6 @@ export const getSearch = async (term?: string) => {
   if (userId) {
     streams = await db.stream.findMany({
       where: {
-        user: {
-          NOT: {
-            blocking: {
-              some: { blockedId: userId },
-            },
-          },
-        },
         OR: [
           {
             name: { contains: term },
@@ -36,12 +29,16 @@ export const getSearch = async (term?: string) => {
           },
         ],
       },
-
-      include: { user: true },
-
+      select: {
+        user: true,
+        id: true,
+        thumbnailUrl: true,
+        isLive: true,
+        name: true,
+        updatedAt: true,
+      },
       orderBy: [{ isLive: "desc" }, { updatedAt: "desc" }],
     });
-
   } else {
     streams = await db.stream.findMany({
       where: {
@@ -57,7 +54,14 @@ export const getSearch = async (term?: string) => {
         ],
       },
 
-      include: { user: true },
+      select: {
+        user: true,
+        id: true,
+        thumbnailUrl: true,
+        isLive: true,
+        name: true,
+        updatedAt: true,
+      },
 
       orderBy: [{ isLive: "desc" }, { updatedAt: "desc" }],
     });
