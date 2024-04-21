@@ -36,7 +36,7 @@ const ChatForm = ({
     e.preventDefault();
     e.stopPropagation();
 
-    if (!value || isDelayed) return;
+    if (!value) return;
     
     if (isDelayed && !isDelayBlocked) {
       setIsDelayBlocked(true);
@@ -69,7 +69,7 @@ const ChatForm = ({
           )}
         />
       </div>
-      <div className="ml-auto">
+      <div className="ml-auto mr-4 mb-2">
         <Button variant="primary" type="submit" size="sm" disabled={isDisabled}>
           Chat
         </Button>

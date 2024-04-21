@@ -3,6 +3,8 @@
 import { useSidebar } from "@/store/use-sidebar";
 import { Follow, User } from "@prisma/client";
 import { UserItem, UserItemSkeleton } from "./user-Item";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface FollowingProps {
   data: (Follow & {
@@ -13,7 +15,15 @@ interface FollowingProps {
 }
 
 export const Following = ({ data }: FollowingProps) => {
+  
   const { collapsed } = useSidebar();
+  const router = useRouter()
+
+  const isLiveStream = data.map(el => el.following.stream?.isLive)
+
+  useEffect(() => {
+    router.refresh()
+  },[isLiveStream , router])
 
   if (!data) return null;
 
@@ -21,7 +31,7 @@ export const Following = ({ data }: FollowingProps) => {
     <div>
       {!collapsed && data.length > 0 && (
         <div className="bl-6 mb-4">
-          <p className="text-sm text-muted-foreground">Following</p>
+          <p className="text-sm text-muted-foreground ml-6">Following</p>
         </div>
       )}
       <ul className="space-y-2 px-2">
